@@ -29,11 +29,12 @@
                <!---------- UC 1.3 -------->
             <div class="row-content">
                 <input class="input" type="text" id="name" name="name" placeholder="Full Name" autocomplete="off" required>
+                <error-output class="name-error" for="text"></error-output> 
             </div>            
             <div class="row-content">
                 <input id="address" class="input" type="tel" name="address" placeholder="Address" style="height:70px"
-                    ;>
-                </input>
+                    ;></input>
+                <erro-output class="address-error" for = "text"></erro-output>
             </div>
             <div class="row-content">
                 <select name="city" id="city"required>
@@ -96,10 +97,14 @@
                     <option value="West Bengal">West Bengal</option>
                 </select>
                 <input name="zip" type="text" placeholder="Zip Code" id="zip">
+                <error-output class="zip-error"></error-output>
             </div>
             <div>
                 <input name="phoneNumber" type="tel" placeholder="Phone Number" id="phoneNumber">
+                <error-output class="tel-error"></error-output>
             </div>
+            <script src="Address_book_detail.js"></script>
+            <script src="Address_book_form.js"></script>
         </form>
     </div>
 </body>

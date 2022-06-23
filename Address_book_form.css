@@ -136,3 +136,10 @@ input[type=tel]{
     margin-left: 30px;
     padding: 8px;
 }
+/* -----UC1.4------ */
+error-output {
+    margin-left: 10px;
+    font-size: 14px;
+    font-style: Roboto;
+    color: red;
+}
