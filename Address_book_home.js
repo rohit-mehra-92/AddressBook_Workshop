@@ -1,7 +1,12 @@
 window.addEventListener("DOMContentLoaded", (event) => {
+    contactList = getContactFromLocalStorage();    
     document.querySelector(".contact-count").textContent = contactList.length;
     createInnerHtml();
   });
+
+  const getContactFromLocalStorage = () =>{
+    return localStorage.getItem('ContactList') ? JSON.parse(localStorage.getItem('ContactList')) : [];
+  }
   
   const createInnerHtml = () => {
     if (contactList.length == 0) {
@@ -32,25 +37,5 @@ window.addEventListener("DOMContentLoaded", (event) => {
           </tr>`;
     }
     document.querySelector("#table-display").innerHTML = innerHtml;
-  };
+  };  
   
-  let contactList = [
-    {
-      _id: 1,
-      _name: "Rohit mehra",
-      _phoneNumber: "7415257009",
-      _address: "Vijay Nagar",
-      _city: "Indore",
-      _state: "Madhya pradesh",
-      _zip: "452020",
-    },
-    {
-      _id: 2,
-      _name: "Karan mehra",
-      _phoneNumber: "8319425481",
-      _address: "Indira Nagar",
-      _city: "Rewa",
-      _state: "Madhya pradesh",
-      _zip: "486001",
-    },
-  ];
