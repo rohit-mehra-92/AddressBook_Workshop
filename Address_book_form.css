@@ -107,7 +107,7 @@ select{
     border: 2px;
     padding: 7px;
     resize: vertical;
-    font: normal normal normal 14px Roboto;
+    font: normal normal normal 14px;
     letter-spacing: 0px;
     margin: 20px;
     background-color: transparent;
@@ -143,3 +143,39 @@ error-output {
     font-style: Roboto;
     color: red;
 }
+
+/* -----UC1.5------ */
+.add-reset{
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.button{
+    font-size: 17px;
+    font-family: sans-serif;
+    letter-spacing: 0px;
+    color: black;
+    border: none;
+    opacity: 1;
+    margin: 20px;
+    background: light grey;
+    font-weight: 400;
+    min-width: 100px;
+    padding: 3px 3px;
+    border: 0px solid black;
+    cursor: pointer;
+    box-shadow: 0px 0px 2px 0px
+}
+.submitButton{
+    border-radius: 5px;
+    margin-left: 40%;
+}
+
+.resetButton{
+    border-radius: 5px;
+    margin-right:20% ;
+}
+
+*{box-sizing: border-box;}
