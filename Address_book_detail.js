@@ -23,11 +23,11 @@ class Contact {
       return this._address;
     }
     set address(address) {
-      let addressRegex = RegExp('^[a-zA-Z0-9\\s]{3,}$');
+      let addressRegex = RegExp("^[a-zA-Z0-9\\s]{3,}$");
       if (addressRegex.test(address)) {
           this._address = address;
         } else {
-          throw "Invalid Address";
+          throw "Invalid Address!";
         }   
       }
     
@@ -54,13 +54,15 @@ class Contact {
     }
     get phoneNumber() {
         return this._phoneNumber;
-      }
-      set phoneNumber(phoneNumber) {
-        let phoneNumberRegex = RegExp("^(0|[+]|91|)?[7-9][0-9]{9}");
-        if (phoneNumberRegex.test(phoneNumber)) {
-          this._phoneNumber = phoneNumber;
-        } else {
-          throw "Invalid Phone Number!";
-        }   
-      }
-  }
+    }
+    set phoneNumber(phoneNumber) {
+    let phoneNumberRegex = RegExp("^(0|[+]|[90]|[91])?[7-9][0-9]{9}");
+    if (phoneNumberRegex.test(phoneNumber)) {
+        this._phoneNumber = phoneNumber;
+    } else {
+        throw "Invalid Phone Number!";
+    }   
+    }
+
+};
+    
