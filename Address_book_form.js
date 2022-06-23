@@ -114,6 +114,7 @@ const createContact = () => {
       } else {
       throw "Please select state";
   }
+    alert(contact.toString());
     return contact;
 }
 

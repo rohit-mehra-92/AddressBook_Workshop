@@ -1,13 +1,6 @@
 class Contact {
   
-    get id() {
-      return this._id;
-    }
-    set id(id) {
-      this._id = id;
-    }
-  
-    get name() {
+     get name() {
       return this._name;
     }
     set name(name) {
@@ -63,6 +56,8 @@ class Contact {
         throw "Invalid Phone Number!";
     }   
     }
-
+    toString(){
+      return `Name: ${this.name} \nPhone Number: ${this.phoneNumber} \nAddress: ${this.address} \nCity: ${this.city} \nState: ${this.state} \nZip:  ${this.zip}`;
+  }
 };
     
