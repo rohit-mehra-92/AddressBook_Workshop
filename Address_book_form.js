@@ -1,3 +1,6 @@
+let isUpdate = false;
+let contactObj = {};
+
 window.addEventListener("DOMContentLoaded", (event) => {
   
   const name = document.querySelector("#name");
@@ -59,15 +62,16 @@ window.addEventListener("DOMContentLoaded", (event) => {
       zipError.textContent = error;
   }
   });
+  checkForUpdate();
 
 });
-  
+ 
 const save = () => {
     try{
         let contact =  createContact();
         createAndUpdateStorage(contact);
     }catch(error){
-        return;
+      alert (error);
     }
 }
 
@@ -130,9 +134,23 @@ const createContact = () => {
     return contact;
 }
 
-function getInputValueById(property) {
-    let value = document.querySelector(property).value;
-    return value;
+const checkForUpdate = () => {
+  const contactJson = localStorage.getItem('editContact');
+  isUpdate = contactJson ? true : false;
+  if(!isUpdate){
+    return;
+  }
+  contactObj = JSON.parse(contactJson);
+  setForm();
+}
+
+const setForm = () => {
+  setValue("#name",contactObj._name);
+  setValue("#phoneNumber", contactObj._phoneNumber);
+  setValue("#address", contactObj._address);
+  setValue("#city", contactObj._city);
+  setValue("#state", contactObj._state);
+  setValue("#zip", contactObj._zip);
 }
 
 const resetForm = () => {
@@ -147,6 +165,7 @@ const resetForm = () => {
   setTextValue(".address-error", "");
 };
 
+
 const setValue = (id, value) => {
   const element = document.querySelector(id);
   element.value = value;
@@ -160,4 +179,9 @@ const setTextValue = (id, value) => {
 const setSelectedIndex = (id, index) => {
   const element = document.querySelector(id);
   element.selectedIndex = index;
+};
+
+const getInputValueById = (property) => {
+  let value = document.querySelector(property).value;
+  return value;
 };

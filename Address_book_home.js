@@ -2,6 +2,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
     contactList = getContactFromLocalStorage();    
     document.querySelector(".contact-count").textContent = contactList.length;
     createInnerHtml();
+    localStorage.removeItem('contactEdit');
+
     });
 
   const getContactFromLocalStorage = () =>{
@@ -50,4 +52,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
     document.querySelector(".contact-count").textContent = contactList.length;
     createInnerHtml();
     window.location.replace("Address_book_home.html");
+  }
+
+  const update = (node) => {
+    let contactToEdit = contactList.find(Contact => Contact._id == node._id);
+    if (!contactToEdit) {
+      return;
+    }
+    localStorage.setItem('contactEdit', JSON.stringify(contactToEdit));
+    window.location.replace(site_properties.add_contacts_page);
   }
