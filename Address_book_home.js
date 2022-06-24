@@ -1,13 +1,38 @@
+let contactList;
+
 window.addEventListener("DOMContentLoaded", (event) => {
-    contactList = getContactFromLocalStorage();    
-    document.querySelector(".contact-count").textContent = contactList.length;
-    createInnerHtml();
-    localStorage.removeItem('contactEdit');
+  if (site_properties.use_local_storage.match("true")) {
+    getContactFromStorage();
+  }
+  else {
+    getContactFromServer();
+  }
+
 });
 
-  const getContactFromLocalStorage = () =>{
-    return localStorage.getItem('ContactList') ? JSON.parse(localStorage.getItem('ContactList')) : [];
-  }
+const processContactDataResponse = () => {
+  document.querySelector(".contact-count").textContent = contactList.length;
+  createInnerHtml();
+  localStorage.removeItem('contactEdit');
+};
+
+const getContactFromStorage = () => {
+  contactList = localStorage.getItem('ContactList') ? JSON.parse(localStorage.getItem('ContactList')) : [];
+  processContactDataResponse();
+};
+
+const getContactFromServer = () => {
+  makeServiceCall("GET", site_properties.server_url, true)
+    .then((responseText) => {
+        contactList = JSON.parse(responseText);
+        processContactDataResponse();
+      })
+    .catch((error) => {
+      console.log("GET Error Status: " + JSON.stringify(error));
+      contactList = [];
+      processContactDataResponse();
+    })
+};
   
   const createInnerHtml = () => {
     if (contactList.length == 0) {
