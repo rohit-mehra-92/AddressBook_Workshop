@@ -66,18 +66,27 @@ const getContactFromServer = () => {
   };  
   
   const remove = (node) => {
-    let removeContact = contactList.find(contact => contact._id == node._id);
+    let removeContact = contactList.find(contact => contact.id == node.id);
     if (!removeContact) {
       return;
     }
-    const index = contactList.map(contact => contact._id).indexOf(removeContact._id);
+    const index = contactList.map(contact => contact.id).indexOf(removeContact.id);
     contactList.splice(index, 1);
-    localStorage.setItem("ContactList", JSON.stringify(contactList));
-    document.querySelector(".contact-count").textContent = contactList.length;
+    if (site_properties.use_local_storage.match("true")){
+        localStorage.setItem("ContactList", JSON.stringify(contactList));
     createInnerHtml();
-    window.location.replace("Address_book_home.html");
-  }
-
+    } else {
+        const deleteURL = site_properties.server_url + removeContact.id.toString();
+        makeServiceCall("DELETE",deleteURL,false)
+            .then (responseText=>{
+            createInnerHtml();
+        })
+        .catch(error => {
+            console.log( "DELETE error status: " + JSON.stringify(error));
+        });
+    }
+}
+ 
   const update = (node) => {
     let contactToEdit = contactList.find(Contact => Contact._id == node._id);
     if (!contactToEdit) {
