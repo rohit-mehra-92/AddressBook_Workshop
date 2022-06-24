@@ -70,6 +70,8 @@ const save = () => {
     try{
         let contact =  createContact();
         createAndUpdateStorage(contact);
+        resetForm();
+        window.location.replace(site_properties.home_page);
     }catch(error){
       alert (error);
     }
@@ -87,62 +89,86 @@ const createAndUpdateStorage = (contact) => {
   localStorage.setItem("ContactList", JSON.stringify(contactList));
 }
 
-const createContact = () => {
+const createContact = (id) => {
   let contact = new Contact();
-  try {
-      contact.name = getInputValueById("#name");
-    } catch (error) {
-      setTextValue(".name-error", error);
-      throw error;
-    }
+  setContactData(contact);
+  return contact;
+}
+
+const setContactData = (contact) => {
 
   try {
-      contact.phoneNumber = getInputValueById("#phoneNumber");
-      } catch (error) {
-      setTextValue(".tel-error", error);
-      throw error;
+    contact.name = getInputValueById("#name");
+  } catch (error) {
+    setTextValue(".name-error", error);
+    throw error;
   }
 
   try {
-      console.log(document.querySelector('#address').value);
-      contact.address = getInputValueById("#address");
-      } catch (error) {
-      setTextValue(".address-error", error);
-      throw error;
+    contact.phoneNumber = getInputValueById("#phoneNumber");
+  } catch (error) {
+    setTextValue(".tel-error", error);
+    throw error;
   }
 
   try {
-      contact.zip = getInputValueById("#zip");
-      } catch (error) {
-      setTextValue(".zip-error", error);
-      throw error;
+    contact.address = getInputValueById("#address");
+  } catch (error) {
+    setTextValue(".address-error", error);
+    throw error;
   }
-  
+
   let city = getInputValueById("#city");
-      if (city != "Select City") {
-      contact.city = city;
-      } else {
-      throw "Please select city";
+  if (city != "Select City") {
+    contact.city = city;
+  } else {
+    throw "Please select city";
   }
 
   let state = getInputValueById("#state");
-      if (state != "Select State") {
-      contact.state = state;
-      } else {
-      throw "Please select state";
+  if (state != "Select State") {
+    contact.state = state;
+  } else {
+    throw "Please select state";
   }
-    return contact;
-}
 
-const checkForUpdate = () => {
-  const contactJson = localStorage.getItem('editContact');
-  isUpdate = contactJson ? true : false;
-  if(!isUpdate){
-    return;
+  try {
+    contact.zip = getInputValueById("#zip");
+  } catch (error) {
+    setTextValue(".zip-error", error);
+    throw error;
   }
-  contactObj = JSON.parse(contactJson);
-  setForm();
-}
+
+  console.log(contact.toString());
+  return contact;
+};
+
+const setContactObject = () => {
+  try {
+    contactObj._name = getInputValueById("#name");
+  } catch (error) {
+    setTextValue(".name-error", error);
+    throw error;
+  }
+
+  try {
+    contactObj._phoneNumber = getInputValueById("#phoneNumber");
+  } catch (error) {
+    setTextValue(".tel-error", error);
+    throw error;
+  }
+
+  contactObj._address = getInputValueById("#address");
+  contactObj._city = getInputValueById("#city");
+  contactObj._state = getInputValueById("#state");
+
+  try {
+    contactObj._zip = getInputValueById("#zip");
+  } catch (error) {
+    setTextValue(".zip-error", error);
+    throw error;
+  }
+};
 
 const setForm = () => {
   setValue("#name",contactObj._name);
@@ -152,6 +178,13 @@ const setForm = () => {
   setValue("#state", contactObj._state);
   setValue("#zip", contactObj._zip);
 }
+
+const generateId = () => {
+  let contactId = localStorage.getItem("ContactID");
+  contactId = !contactId ? 1 : (parseInt(contactId) + 1).toString();
+  localStorage.setItem("ContactID", contactId);
+  return contactId;
+};
 
 const resetForm = () => {
   setValue("#name", "");

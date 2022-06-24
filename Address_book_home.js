@@ -3,8 +3,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     document.querySelector(".contact-count").textContent = contactList.length;
     createInnerHtml();
     localStorage.removeItem('contactEdit');
-
-    });
+});
 
   const getContactFromLocalStorage = () =>{
     return localStorage.getItem('ContactList') ? JSON.parse(localStorage.getItem('ContactList')) : [];
