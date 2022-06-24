@@ -66,16 +66,41 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
 });
  
-const save = () => {
-    try{
-        let contact =  createContact();
-        createAndUpdateStorage(contact);
-        resetForm();
-        window.location.replace(site_properties.home_page);
-    }catch(error){
-      alert (error);
+const save = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  try {
+    setContactObject();
+    if (site_properties.use_local_storage.match("true")) {
+      createAndUpdateLocalStorage();
+      resetForm();
+      window.location.replace(site_properties.home_page);
     }
-}
+    else {
+      createAndUpdateServer();
+    }
+
+  } catch (error) {
+    alert(error);
+  }
+};
+
+const createAndUpdateServer = () => {
+  let postUrl = site_properties.server_url;
+  let methodCall = "POST";
+  if (isUpdate) {
+    methodCall = "PUT";
+    postUrl = postUrl + contactObj.id.toString();
+  }
+  makeServiceCall(methodCall, postUrl, true, contactObj)
+    .then((responseText) => {
+      resetForm();
+      window.location.replace(site_properties.home_page);
+    })
+    .catch((error) => {
+      throw error;
+    })
+};
 
 const createAndUpdateStorage = (contact) => {
   let contactList = JSON.parse(localStorage.getItem("ContactList"));
@@ -95,79 +120,18 @@ const createContact = (id) => {
   return contact;
 }
 
-const setContactData = (contact) => {
-
-  try {
-    contact.name = getInputValueById("#name");
-  } catch (error) {
-    setTextValue(".name-error", error);
-    throw error;
-  }
-
-  try {
-    contact.phoneNumber = getInputValueById("#phoneNumber");
-  } catch (error) {
-    setTextValue(".tel-error", error);
-    throw error;
-  }
-
-  try {
-    contact.address = getInputValueById("#address");
-  } catch (error) {
-    setTextValue(".address-error", error);
-    throw error;
-  }
-
-  let city = getInputValueById("#city");
-  if (city != "Select City") {
-    contact.city = city;
-  } else {
-    throw "Please select city";
-  }
-
-  let state = getInputValueById("#state");
-  if (state != "Select State") {
-    contact.state = state;
-  } else {
-    throw "Please select state";
-  }
-
-  try {
-    contact.zip = getInputValueById("#zip");
-  } catch (error) {
-    setTextValue(".zip-error", error);
-    throw error;
-  }
-
-  console.log(contact.toString());
-  return contact;
-};
 
 const setContactObject = () => {
-  try {
-    contactObj._name = getInputValueById("#name");
-  } catch (error) {
-    setTextValue(".name-error", error);
-    throw error;
+  if (!isUpdate && site_properties.use_local_storage.match("true")) {
+    contactObj.id = generateId();
   }
-
-  try {
-    contactObj._phoneNumber = getInputValueById("#phoneNumber");
-  } catch (error) {
-    setTextValue(".tel-error", error);
-    throw error;
-  }
-
+  contactObj._name = getInputValueById("#name");
+  contactObj._phoneNumber = getInputValueById("#phoneNumber");
   contactObj._address = getInputValueById("#address");
   contactObj._city = getInputValueById("#city");
   contactObj._state = getInputValueById("#state");
+  contactObj._zip = getInputValueById("#zip");
 
-  try {
-    contactObj._zip = getInputValueById("#zip");
-  } catch (error) {
-    setTextValue(".zip-error", error);
-    throw error;
-  }
 };
 
 const setForm = () => {
