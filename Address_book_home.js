@@ -2,7 +2,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
     contactList = getContactFromLocalStorage();    
     document.querySelector(".contact-count").textContent = contactList.length;
     createInnerHtml();
-  });
+    });
 
   const getContactFromLocalStorage = () =>{
     return localStorage.getItem('ContactList') ? JSON.parse(localStorage.getItem('ContactList')) : [];
@@ -39,3 +39,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
     document.querySelector("#table-display").innerHTML = innerHtml;
   };  
   
+  const remove = (node) => {
+    let removeContact = contactList.find(contact => contact._id == node._id);
+    if (!removeContact) {
+      return;
+    }
+    const index = contactList.map(contact => contact._id).indexOf(removeContact._id);
+    contactList.splice(index, 1);
+    localStorage.setItem("ContactList", JSON.stringify(contactList));
+    document.querySelector(".contact-count").textContent = contactList.length;
+    createInnerHtml();
+    window.location.replace("Address_book_home.html");
+  }
