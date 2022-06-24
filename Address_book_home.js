@@ -32,8 +32,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
           <td>${contact._zip}</td>
           <td>${contact._phoneNumber}</td>
           <td>
-              <img src="delete.svg" alt="delete" id="${contact._id}" onclick="remove(this)">
-              <img src="edit.svg" alt="update" id="${contact._id}" onclick="update(this)">
+              <img src="delete.svg" alt="delete" id="${contact.id}" onclick="remove(this)">
+              <img src="edit.svg" alt="update" id="${contact.id}" onclick="update(this)">
           </td>
           </tr>`;
     }
@@ -41,11 +41,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
   };  
   
   const remove = (node) => {
-    let removeContact = contactList.find(contact => contact._id == node._id);
+    let removeContact = contactList.find(contact => contact.id == node.id);
     if (!removeContact) {
       return;
     }
-    const index = contactList.map(contact => contact._id).indexOf(removeContact._id);
+    const index = contactList.map(contact => contact.id).indexOf(removeContact.id);
     contactList.splice(index, 1);
     localStorage.setItem("ContactList", JSON.stringify(contactList));
     document.querySelector(".contact-count").textContent = contactList.length;
@@ -54,7 +54,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
   }
 
   const update = (node) => {
-    let contactToEdit = contactList.find(Contact => Contact._id == node._id);
+    let contactToEdit = contactList.find(Contact => Contact.id == node.id);
     if (!contactToEdit) {
       return;
     }
